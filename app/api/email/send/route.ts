@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const from = body.email;
-  const to = body.password;
-  const subject = body.email;
-  const text = body.password;
+  const from = body.from;
+  const to = body.to;
+  const subject = body.subject;
+  const text = body.text;
 
   if (!from || !to || !subject || !text) {
     return NextResponse.json(
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       payload,
       "POST"
     );
-    const data = { email: response.email, id: response.id };
+    const data = { from, to, subject, text };
     const resp = { error: null, message: "Email send successfully", data };
     return NextResponse.json(resp, { status: 200 });
   } catch (error: any) {
