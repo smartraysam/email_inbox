@@ -11,11 +11,13 @@ const Home = () => {
     email: string;
     id: string;
   } | null>(null);
-  const { user, setUser, messages, addmessage } = useStore();
+  const { userId,setUserId, user, setUser, messages, addmessage } = useStore();
 
   useEffect(() => {
-    setResponseData(user);
-  }, [user]);
+    if (userId != "") {
+      setResponseData(user);
+    }
+  }, [user, userId]);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -31,6 +33,7 @@ const Home = () => {
       const res = await response.json();
       const data = res.data;
       setUser(data);
+      setUserId(data.id);
       setResponseData(data);
       setUsername("");
       setPassword("");
@@ -44,7 +47,7 @@ const Home = () => {
     const to = email;
     const subject = "Demo Email Inbox Integration";
     const text = message;
-    const msgdata ={ from, to, subject, text };
+    const msgdata = { from, to, subject, text };
     const response = await fetch("/api/emails/send", {
       method: "POST",
       headers: {
