@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+  console.log(body);
 
-  const email = body.email;
+  const email = `${body.username}@breezeflow.io`;
   const password = body.password;
 
   if (!email || !password) {
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     const resp={error: null, message: "Email created successfully",data};
     return NextResponse.json(resp, { status: 200 });
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
